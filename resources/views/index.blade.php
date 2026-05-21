@@ -1,14 +1,15 @@
-<!doctype html>
+@php use App\Enums\ProductCodeEnum; @endphp
+    <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Home | Pistachio</title>
 
     <style>
         @font-face {
             font-family: 'iranFont';
-            src: url('/fonts/Iranian\ Sans.ttf');
+            src: url('{{ asset('fonts/Iranian Sans.ttf') }}');
         }
 
         * {
@@ -25,6 +26,10 @@
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
         }
 
         .app-frame {
@@ -82,6 +87,8 @@
             height: 224px;
             object-fit: cover;
             flex-shrink: 0;
+            user-select: none;
+            -webkit-user-drag: none;
         }
 
         /* دکمه‌ها و نقاط عمومی */
@@ -174,6 +181,8 @@
             object-fit: cover;
             border-radius: 8px;
             margin-bottom: 5px;
+            user-select: none;
+            -webkit-user-drag: none;
         }
 
         .product-name {
@@ -189,6 +198,7 @@
             font-size: 12px;
             color: #6d7016;
             font-weight: bold;
+            direction: rtl;
         }
 
         .out-of-stock {
@@ -317,13 +327,14 @@
     </header>
 
     <div class="slider" id="slider">
-        <div class="slides" id="slides">
-            <img src="{{ asset('icons & images/banner3.jpeg') }}" /><img
-                src="{{ asset('icons & images/banner2.jpeg') }}"
-            /><img src="{{ asset('icons & images/banner4.jpeg') }}" /><img src="baner1.png" />
+        <div class="slides" id="slides" dir="rtl">
+            <img src="{{ asset('icons & images/banner3.jpeg') }}"/>
+            <img src="{{ asset('icons & images/banner2.jpeg') }}">
+            <img src="{{ asset('icons & images/banner4.jpeg') }}"/>
+            <img src="{{ asset('icons & images/baner1.png') }}"/>
         </div>
-        <button class="nav-btn prev" onclick="prevSlide()">‹</button>
-        <button class="nav-btn next" onclick="nextSlide()">›</button>
+        <button class="nav-btn prev" onclick="prevBannerSlide()">‹</button>
+        <button class="nav-btn next" onclick="nextBannerSlide()">›</button>
     </div>
     <div class="dots" id="dots">
         <div class="dot active"></div>
@@ -334,32 +345,27 @@
 
     <div class="product-slider">
         <div class="product-container" id="p-container">
-            <div class="product-page">
-                <div class="product-card">
-                    <img src="{{ asset('icons & images/product1.png') }}" />
-                    <div class="product-name">پسته اکبری ساده</div>
-                    <div class="product-price">۹۰۰،۰۰۰ تومان</div>
+            @foreach($products->chunk(2) as $productsPage)
+                <div class="product-page">
+                    @foreach($productsPage as $product)
+                        @php($image = match ($product->code) {
+                            ProductCodeEnum::akbari_sade => asset('icons & images/product1.png'),
+                            ProductCodeEnum::kalegoochi_sade => asset('icons & images/product2.png'),
+                            ProductCodeEnum::akbari_namaki => asset('icons & images/product1.png'),
+                            ProductCodeEnum::kalegoochi_namaki => asset('icons & images/product2.png')
+                        })
+                        @php($price = fa_digits(number_format($product->price)))
+                        <a href="#" class="product-card">
+                            <img src="{{ $image  }}" alt="{{ $product->name }}"/>
+                            <div class="product-name">{{ $product->name }}</div>
+                            <div class="product-price">{{ $price }} تومان</div>
+                            @if(!$product->quantity)
+                                <div class="out-of-stock">اتمام موجودی</div>
+                            @endif
+                        </a>
+                    @endforeach
                 </div>
-                <div class="product-card">
-                    <img src="{{ asset('icons & images/product2.png') }}" />
-                    <div class="product-name">پسته کله‌قوچی ساده</div>
-                    <div class="product-price">۸۰۰،۰۰۰ تومان</div>
-                    <div class="out-of-stock">اتمام موجودی</div>
-                </div>
-            </div>
-            <div class="product-page">
-                <div class="product-card">
-                    <img src="{{ asset('icons & images/product1.png') }}" />
-                    <div class="product-name">پسته کله‌قوچی نمکی</div>
-                    <div class="product-price">۹۵۰،۰۰۰ تومان</div>
-                </div>
-                <div class="product-card">
-                    <img src="{{ asset('icons & images/product2.png') }}" />
-                    <div class="product-name">پسته اکبری نمکی</div>
-                    <div class="product-price">۸۵۰،۰۰۰ تومان</div>
-                    <div class="out-of-stock">اتمام موجودی</div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 
@@ -430,23 +436,23 @@
     <footer class="footer-container">
         <div class="footer-right-contact">
             <div class="contact-item">
-                <img src="{{ asset('icons & images/Message.png') }}" /><span
+                <img src="{{ asset('icons & images/Message.png') }}"/><span
                 >ایمیل: peste.sh@gmail.com</span
                 >
             </div>
             <div class="contact-item">
-                <img src="{{ asset('icons & images/Location.png') }}" /><span
+                <img src="{{ asset('icons & images/Location.png') }}"/><span
                 >آدرس: کیلومتر ۳۰ بجنورد</span
                 >
             </div>
             <div class="contact-item">
-                <img src="{{ asset('icons & images/Call.png') }}" /><span>تلفن: ۰۵۸۳۳۲۴۱۵۶</span>
+                <img src="{{ asset('icons & images/Call.png') }}"/><span>تلفن: ۰۵۸۳۳۲۴۱۵۶</span>
             </div>
         </div>
         <div class="footer-left-socials">
-            <img src="{{ asset('icons & images/Instagram.png') }}" /><img
+            <img src="{{ asset('icons & images/Instagram.png') }}"/><img
                 src="{{ asset('icons & images/Telegram.png') }}"
-            /><img src="{{ asset('icons & images/Enamad.png') }}" /><img
+            /><img src="{{ asset('icons & images/Enamad.png') }}"/><img
                 src="{{ asset('icons & images/Youtube.png') }}"
             />
         </div>
@@ -485,58 +491,150 @@
     function startProductAutoSlide() {
         productAutoSlide = setInterval(() => moveProductSlider(1), 15000)
     }
+
     function resetProductAutoSlide() {
         clearInterval(productAutoSlide)
         startProductAutoSlide()
     }
-    startProductAutoSlide()
 
-    /* Swipe logic for product slider */
-    productContainer.addEventListener('touchstart', (e) => (startX = e.touches[0].clientX))
-    productContainer.addEventListener('touchend', (e) => {
-        let endX = e.changedTouches[0].clientX
-        if (startX - endX > 50) moveProductSlider(1)
-        else if (endX - startX > 50) moveProductSlider(-1)
-    })
+    startProductAutoSlide()
+    productSliderEvents()
+
+    function productSliderEvents() {
+
+        let startX = 0
+        let isDragging = false
+
+        // برای رویدادهای لمسی (Touch Events)
+        // productContainer.addEventListener('touchstart', (e) => {
+        //     startX = e.touches[0].clientX
+        // })
+        //
+        // productContainer.addEventListener('touchend', (e) => {
+        //     let endX = e.changedTouches[0].clientX
+        //     if (startX - endX > 50) {
+        //         moveProductSlider(1)
+        //     } else if (endX - startX > 50) {
+        //         moveProductSlider(-1)
+        //     }
+        // })
+
+        // برای رویدادهای موس و تاچ با استفاده از Pointer Events
+        productContainer.addEventListener('pointerdown', (e) => {
+            isDragging = true
+            startX = e.clientX // clientX برای موس و تاچ مشترکه
+            productContainer.style.cursor = 'grabbing'; // تغییر ظاهر نشانگر موس
+        })
+
+        productContainer.addEventListener('pointermove', (e) => {
+            // جلوگیری از اسکرول صفحه در حین کشیدن (drag)
+            if (!isDragging) return
+            e.preventDefault()
+        })
+
+        productContainer.addEventListener('pointerup', (e) => {
+            if (!isDragging) return
+            isDragging = false
+            // productContainer.style.cursor = 'grab'; // بازگرداندن نشانگر موس به حالت عادی
+
+            let endX = e.clientX
+            if (startX - endX > 50) {
+                moveProductSlider(-1)
+            } else if (endX - startX > 50) {
+                moveProductSlider(1)
+            }
+        })
+
+        // قطع کردن حالت کشیدن اگر نشانگر موس از روی المان خارج شد
+        productContainer.addEventListener('pointerleave', () => {
+            if (!isDragging) return
+            isDragging = false
+            // productContainer.style.cursor = 'grab';
+        })
+
+        // تنظیم اولیه نشانگر موس برای نمایش قابلیت کشیدن
+        // productContainer.style.cursor = 'grab';
+    }
+
 
     /* ---- اسلایدر بنر (همان کد قبلی) ---- */
     const slides = document.querySelector('#slides')
     const dots = document.querySelectorAll('.dot')
-    const totalSlides = 3
+    const totalSlides = 4
     let currentIndex = 0
     let bannerAutoSlide
 
     function updateBannerSlidePosition() {
-        slides.style.transform = `translateX(-${360 * currentIndex}px)`
+        slides.style.transform = `translateX(${360 * currentIndex}px)`
         dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex))
     }
+
     function nextBannerSlide() {
         currentIndex = (currentIndex + 1) % totalSlides
         updateBannerSlidePosition()
         resetBannerAutoSlide()
     }
+
     function prevBannerSlide() {
         currentIndex = (currentIndex - 1 + totalSlides) % totalSlides
         updateBannerSlidePosition()
         resetBannerAutoSlide()
     }
+
     function startBannerAutoSlide() {
         bannerAutoSlide = setInterval(nextBannerSlide, 20000)
     }
+
     function resetBannerAutoSlide() {
         clearInterval(bannerAutoSlide)
         startBannerAutoSlide()
     }
+
     startBannerAutoSlide()
 
-    let startX = 0
-    slides.addEventListener('touchstart', (e) => (startX = e.touches[0].clientX))
-    slides.addEventListener('touchend', (e) => {
-        let endX = e.changedTouches[0].clientX
-        if (startX - endX > 50) nextBannerSlide()
-        else if (endX - startX > 50) prevBannerSlide()
-    })
+    function bannerSliderEvents() {
+        let startX = 0
+        let isDragging = false
 
+        slides.addEventListener('pointerdown', (e) => {
+            isDragging = true
+            startX = e.clientX // از clientX برای mouse و touch استفاده می‌کنیم
+            slides.style.cursor = 'grabbing'; // تغییر نشانگر موس به حالت کشیدن
+            console.log(startX)
+        })
+
+        slides.addEventListener('pointermove', (e) => {
+            // برای جلوگیری از اسکرول صفحه در حین کشیدن
+            if (!isDragging) return
+            e.preventDefault()
+        })
+
+        slides.addEventListener('pointerup', (e) => {
+            if (!isDragging) return
+            isDragging = false
+            // slides.style.cursor = 'grab'; // برگرداندن نشانگر موس به حالت عادی
+
+            let endX = e.clientX
+            if (startX - endX > 50) {
+                prevBannerSlide()
+            } else if (endX - startX > 50) {
+                nextBannerSlide()
+            }
+        })
+
+        // اگر pointer از روی المان خارج شد، drag رو قطع کن
+        slides.addEventListener('pointerleave', () => {
+            if (!isDragging) return
+            isDragging = false
+            // slides.style.cursor = 'grab';
+        })
+
+        // استایل اولیه برای نشون دادن قابلیت کشیدن
+        // slides.style.cursor = 'grab';
+
+    }
+
+    bannerSliderEvents()
     // [کدهای قبلی اسلایدرها در اینجا]
 </script>
 </body>

@@ -332,11 +332,13 @@
 <div class="app-frame">
     <!-- هدر -->
     <header class="header-top">
-        <div class="logo-right">
+        <a href="{{ route('home') }}" class="logo-right">
             <img src="{{ asset('icons & images/logo2.png') }}" alt="Logo"/>
-        </div>
+        </a>
         <div class="icons-left">
-            <img src="{{ asset('icons & images/Profile.png') }}" alt="Profile"/>
+            <a href="{{ route('profile') }}">
+                <img src="{{ asset('icons & images/Profile.png') }}" alt="Profile"/>
+            </a>
             <img src="{{ asset('icons & images/Bag 2.png') }}" alt="Cart"/>
         </div>
     </header>
