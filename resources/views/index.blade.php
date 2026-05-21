@@ -142,7 +142,7 @@
             height: 224px;
             position: relative;
             overflow: hidden;
-            direction: ltr;
+            /*direction: ltr;*/
             margin-top: 20px;
         }
 
@@ -173,6 +173,8 @@
             padding: 8px;
             background: #fff;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+            user-select: none;
+            -webkit-user-drag: none;
         }
 
         .product-card img {
@@ -333,8 +335,8 @@
             <img src="{{ asset('icons & images/banner4.jpeg') }}"/>
             <img src="{{ asset('icons & images/baner1.png') }}"/>
         </div>
-        <button class="nav-btn prev" onclick="prevBannerSlide()">‹</button>
-        <button class="nav-btn next" onclick="nextBannerSlide()">›</button>
+        <button class="nav-btn prev" onclick="nextBannerSlide()">‹</button>
+        <button class="nav-btn next" onclick="prevBannerSlide()">›</button>
     </div>
     <div class="dots" id="dots">
         <div class="dot active"></div>
@@ -485,7 +487,7 @@
     function moveProductSlider(direction) {
         currentProductIndex =
             (currentProductIndex + direction + totalProductPages) % totalProductPages
-        productContainer.style.transform = `translateX(-${currentProductIndex * 360}px)`
+        productContainer.style.transform = `translateX(${currentProductIndex * 360}px)`
     }
 
     function startProductAutoSlide() {
@@ -506,33 +508,33 @@
         let isDragging = false
 
         // برای رویدادهای لمسی (Touch Events)
-        // productContainer.addEventListener('touchstart', (e) => {
-        //     startX = e.touches[0].clientX
-        // })
-        //
-        // productContainer.addEventListener('touchend', (e) => {
-        //     let endX = e.changedTouches[0].clientX
-        //     if (startX - endX > 50) {
-        //         moveProductSlider(1)
-        //     } else if (endX - startX > 50) {
-        //         moveProductSlider(-1)
-        //     }
-        // })
+        productContainer.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX
+        })
+
+        productContainer.addEventListener('touchend', (e) => {
+            let endX = e.changedTouches[0].clientX
+            if (startX - endX > 50) {
+                moveProductSlider(-1)
+            } else if (endX - startX > 50) {
+                moveProductSlider(1)
+            }
+        })
 
         // برای رویدادهای موس و تاچ با استفاده از Pointer Events
-        productContainer.addEventListener('pointerdown', (e) => {
+        productContainer.addEventListener('mousedown', (e) => {
             isDragging = true
             startX = e.clientX // clientX برای موس و تاچ مشترکه
             productContainer.style.cursor = 'grabbing'; // تغییر ظاهر نشانگر موس
         })
 
-        productContainer.addEventListener('pointermove', (e) => {
+        productContainer.addEventListener('mousemove', (e) => {
             // جلوگیری از اسکرول صفحه در حین کشیدن (drag)
             if (!isDragging) return
             e.preventDefault()
         })
 
-        productContainer.addEventListener('pointerup', (e) => {
+        productContainer.addEventListener('mouseup', (e) => {
             if (!isDragging) return
             isDragging = false
             // productContainer.style.cursor = 'grab'; // بازگرداندن نشانگر موس به حالت عادی
@@ -546,7 +548,7 @@
         })
 
         // قطع کردن حالت کشیدن اگر نشانگر موس از روی المان خارج شد
-        productContainer.addEventListener('pointerleave', () => {
+        productContainer.addEventListener('mouseleave', () => {
             if (!isDragging) return
             isDragging = false
             // productContainer.style.cursor = 'grab';
@@ -596,20 +598,33 @@
         let startX = 0
         let isDragging = false
 
-        slides.addEventListener('pointerdown', (e) => {
+        slides.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX
+        })
+
+        slides.addEventListener('touchend', (e) => {
+            let endX = e.changedTouches[0].clientX
+            if (startX - endX > 50) {
+                prevBannerSlide(-1)
+            } else if (endX - startX > 50) {
+                nextBannerSlide(1)
+            }
+        })
+
+        slides.addEventListener('mousedown', (e) => {
             isDragging = true
             startX = e.clientX // از clientX برای mouse و touch استفاده می‌کنیم
             slides.style.cursor = 'grabbing'; // تغییر نشانگر موس به حالت کشیدن
             console.log(startX)
         })
 
-        slides.addEventListener('pointermove', (e) => {
+        slides.addEventListener('mousemove', (e) => {
             // برای جلوگیری از اسکرول صفحه در حین کشیدن
             if (!isDragging) return
             e.preventDefault()
         })
 
-        slides.addEventListener('pointerup', (e) => {
+        slides.addEventListener('mouseup', (e) => {
             if (!isDragging) return
             isDragging = false
             // slides.style.cursor = 'grab'; // برگرداندن نشانگر موس به حالت عادی
@@ -622,8 +637,8 @@
             }
         })
 
-        // اگر pointer از روی المان خارج شد، drag رو قطع کن
-        slides.addEventListener('pointerleave', () => {
+        // اگر mouse از روی المان خارج شد، drag رو قطع کن
+        slides.addEventListener('mouseleave', () => {
             if (!isDragging) return
             isDragging = false
             // slides.style.cursor = 'grab';
