@@ -237,22 +237,22 @@
         <div class="panel-title-text">حساب کاربری من</div>
 
         <!-- لیست محصولات -->
-        <div class="list-row">
-            <a href="{{route('profile.info')}}" class="row-right">
+        <a href="{{route('profile.info')}}" class="list-row">
+            <div  class="row-right">
                 <img src="{{ asset('icons & images/Info Square.png') }}" alt="Icon"/>
                 <!-- از آیکون Document خودت استفاده کن -->
                 <span>اطلاعات حساب کاربری</span>
-            </a>
+            </div>
             <div class="row-left">
                 <img
                     src="{{ asset('icons & images/Arrow - Left 2.png') }}"
                     alt=""
                 />
             </div>
-        </div>
+        </a>
 
         <!-- لیست فروش -->
-        <div class="list-row">
+        <a href="{{ route('profile.address') }}" class="list-row">
             <div class="row-right">
                 <img src="{{ asset('icons & images/Location.png') }}" alt="Icon"/>
                 <span>آدرس</span>
@@ -263,7 +263,7 @@
                     alt="Go"
                 />
             </div>
-        </div>
+        </a>
 
         <!-- آمار فروش -->
         <div class="list-row">

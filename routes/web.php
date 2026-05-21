@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('auth')->group(function () {
+    Route::post('/profile/address', ProfileController::class . '@updateAddress')->name('profile.address.update');
+    Route::get('/profile/address', ProfileController::class . '@address')->name('profile.address');
     Route::put('/profile/info', ProfileController::class . '@update')->name('profile.info.update');
     Route::get('/profile/info', ProfileController::class . '@info')->name('profile.info');
     Route::get('/profile', ProfileController::class . '@index')->name('profile');

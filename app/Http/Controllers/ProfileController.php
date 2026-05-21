@@ -12,6 +12,24 @@ class ProfileController extends Controller
         return view('profile.index');
     }
 
+    public function updateAddress(Request $request)
+    {
+        $validated = $request->validate([
+            'province' => 'required',
+            'city' => 'required',
+            'address' => 'required',
+        ]);
+
+        auth()->user()->address()->updateOrCreate([], $validated);
+
+        return back()->with('success', 'اطلاعات با موفقیت بروزرسانی شد.');
+    }
+
+    public function address()
+    {
+        return view('profile.address');
+    }
+
     public function info()
     {
         return view('profile.info');
@@ -36,6 +54,6 @@ class ProfileController extends Controller
 
         auth()->user()->update($updateFields);
 
-        return back()->->with(['success' => 'اطلاعات با موفقیت بروزرسانی شد.']);
+        return back()->with(['success' => 'اطلاعات با موفقیت بروزرسانی شد.']);
     }
 }
