@@ -298,18 +298,19 @@
 <body>
 <div class="app-frame">
     <header class="header-top">
-        <div class="logo-right">
+        <a href="{{ route('home') }}" class="logo-right">
             <img
-                src="/icons & images/logo2.png"
-                onclick="window.location.href = 'index.html'"
+                src="{{ asset('icons & images/logo2.png') }}"
+                alt=""
             />
-        </div>
+        </a>
         <div class="icons-left">
+            <a href="{{ route('profile') }}"><img
+                    src="{{ asset('icons & images/Profile.png') }}"
+                    alt=""
+                /></a>
             <img
-                src="/icons & images/Profile.png"
-                onclick="window.location.href = 'profile.html'"
-            /><img
-                src="/icons & images/Bag 2.png"
+                src="{{ asset('icons & images/Bag 2.png') }}"
                 onclick="window.location.href = 'cart.html'"
             />
         </div>
@@ -317,9 +318,9 @@
 
     <div class="slider" id="slider">
         <div class="slides" id="slides">
-            <img src="/icons & images/banner3.jpeg" /><img
-                src="/icons & images/banner2.jpeg"
-            /><img src="/icons & images/banner4.jpeg" /><img src="baner1.png" />
+            <img src="{{ asset('icons & images/banner3.jpeg') }}" /><img
+                src="{{ asset('icons & images/banner2.jpeg') }}"
+            /><img src="{{ asset('icons & images/banner4.jpeg') }}" /><img src="baner1.png" />
         </div>
         <button class="nav-btn prev" onclick="prevSlide()">‹</button>
         <button class="nav-btn next" onclick="nextSlide()">›</button>
@@ -335,12 +336,12 @@
         <div class="product-container" id="p-container">
             <div class="product-page">
                 <div class="product-card">
-                    <img src="/icons & images/product1.png" />
+                    <img src="{{ asset('icons & images/product1.png') }}" />
                     <div class="product-name">پسته اکبری ساده</div>
                     <div class="product-price">۹۰۰،۰۰۰ تومان</div>
                 </div>
                 <div class="product-card">
-                    <img src="/icons & images/product2.png" />
+                    <img src="{{ asset('icons & images/product2.png') }}" />
                     <div class="product-name">پسته کله‌قوچی ساده</div>
                     <div class="product-price">۸۰۰،۰۰۰ تومان</div>
                     <div class="out-of-stock">اتمام موجودی</div>
@@ -348,12 +349,12 @@
             </div>
             <div class="product-page">
                 <div class="product-card">
-                    <img src="/icons & images/product1.png" />
+                    <img src="{{ asset('icons & images/product1.png') }}" />
                     <div class="product-name">پسته کله‌قوچی نمکی</div>
                     <div class="product-price">۹۵۰،۰۰۰ تومان</div>
                 </div>
                 <div class="product-card">
-                    <img src="/icons & images/product2.png" />
+                    <img src="{{ asset('icons & images/product2.png') }}" />
                     <div class="product-name">پسته اکبری نمکی</div>
                     <div class="product-price">۸۵۰،۰۰۰ تومان</div>
                     <div class="out-of-stock">اتمام موجودی</div>
@@ -369,7 +370,7 @@
             <div class="faq-question">
                         <span>هزینه ارسال چگونه محاسبه میشود؟</span
                         ><img
-                    src="/icons & images/Arrow - Left 2.png"
+                    src="{{ asset('icons & images/Arrow - Left 2.png') }}"
                     class="faq-icon"
                     id="icon-0"
                 />
@@ -382,7 +383,7 @@
             <div class="faq-question">
                         <span>آیا امکان تحویل حضوری وجود دارد؟</span
                         ><img
-                    src="/icons & images/Arrow - Left 2.png"
+                    src="{{ asset('icons & images/Arrow - Left 2.png') }}"
                     class="faq-icon"
                     id="icon-1"
                 />
@@ -393,7 +394,7 @@
             <div class="faq-question">
                         <span>آیا محصولات تازه هستند؟</span
                         ><img
-                    src="/icons & images/Arrow - Left 2.png"
+                    src="{{ asset('icons & images/Arrow - Left 2.png') }}"
                     class="faq-icon"
                     id="icon-2"
                 />
@@ -404,7 +405,7 @@
             <div class="faq-question">
                         <span>روش‌های پرداخت به چه صورت است؟</span
                         ><img
-                    src="/icons & images/Arrow - Left 2.png"
+                    src="{{ asset('icons & images/Arrow - Left 2.png') }}"
                     class="faq-icon"
                     id="icon-3"
                 />
@@ -415,7 +416,7 @@
             <div class="faq-question">
                         <span>آیا امکان بسته‌بندی هدیه وجود دارد؟</span
                         ><img
-                    src="/icons & images/Arrow - Left 2.png"
+                    src="{{ asset('icons & images/Arrow - Left 2.png') }}"
                     class="faq-icon"
                     id="icon-4"
                 />
@@ -429,24 +430,24 @@
     <footer class="footer-container">
         <div class="footer-right-contact">
             <div class="contact-item">
-                <img src="/icons & images/Message.png" /><span
+                <img src="{{ asset('icons & images/Message.png') }}" /><span
                 >ایمیل: peste.sh@gmail.com</span
                 >
             </div>
             <div class="contact-item">
-                <img src="/icons & images/Location.png" /><span
+                <img src="{{ asset('icons & images/Location.png') }}" /><span
                 >آدرس: کیلومتر ۳۰ بجنورد</span
                 >
             </div>
             <div class="contact-item">
-                <img src="/icons & images/Call.png" /><span>تلفن: ۰۵۸۳۳۲۴۱۵۶</span>
+                <img src="{{ asset('icons & images/Call.png') }}" /><span>تلفن: ۰۵۸۳۳۲۴۱۵۶</span>
             </div>
         </div>
         <div class="footer-left-socials">
-            <img src="/icons & images/Instagram.png" /><img
-                src="/icons & images/Telegram.png"
-            /><img src="/icons & images/Enamad.png" /><img
-                src="/icons & images/Youtube.png"
+            <img src="{{ asset('icons & images/Instagram.png') }}" /><img
+                src="{{ asset('icons & images/Telegram.png') }}"
+            /><img src="{{ asset('icons & images/Enamad.png') }}" /><img
+                src="{{ asset('icons & images/Youtube.png') }}"
             />
         </div>
     </footer>
