@@ -2,9 +2,13 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+
+/* Product */
+Route::get('/product/{code}', [ProductController::class, 'show'])->name('product.show');
 
 Route::middleware('auth')->group(function () {
     Route::post('/profile/address', ProfileController::class . '@updateAddress')->name('profile.address.update');
@@ -14,7 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', ProfileController::class . '@index')->name('profile');
 });
 
-
+/* Home Page */
 Route::get('/', HomeController::class . '@index')->name('home');
 
 /* Authentication */

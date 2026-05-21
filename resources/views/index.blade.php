@@ -357,7 +357,7 @@
                             ProductCodeEnum::kalegoochi_namaki => asset('icons & images/product2.png')
                         })
                         @php($price = fa_digits(number_format($product->price)))
-                        <a href="#" class="product-card">
+                        <a href="{{ route('product.show',['code' => $product->code ]) }}" class="product-card">
                             <img src="{{ $image  }}" alt="{{ $product->name }}"/>
                             <div class="product-name">{{ $product->name }}</div>
                             <div class="product-price">{{ $price }} تومان</div>

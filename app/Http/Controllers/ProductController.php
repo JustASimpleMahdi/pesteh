@@ -34,9 +34,10 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(string $code)
     {
-        //
+        $product = Product::whereCode($code)->firstOrFail();
+        return view('product.show', compact('product'));
     }
 
     /**
