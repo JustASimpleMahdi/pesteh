@@ -17,12 +17,22 @@ use Illuminate\Notifications\Notifiable;
 
 //use Illuminate\Foundation\Auth\User as Authenticatable;
 
-#[Fillable(['firstname','lastname', 'username','phone', 'password'])]
+#[Fillable(['firstname', 'lastname', 'username', 'phone', 'password'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
     /** @use HasFactory<UserFactory> */
     use Authenticatable, Authorizable, HasFactory, Notifiable;
+
+    public function cart(): HasOne
+    {
+        return $this->hasOne(Cart::class);
+    }
+
+    public function address(): HasOne
+    {
+        return $this->hasOne(Address::class);
+    }
 
     /**
      * Get the attributes that should be cast.
@@ -35,9 +45,5 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function address(): HasOne{
-        return $this->hasOne(Address::class);
     }
 }

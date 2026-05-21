@@ -21,6 +21,9 @@
             height: 100vh;
         }
 
+        button {
+            font-family: 'iranFont';
+        }
         .container {
             width: 360px;
             height: 800px;
@@ -244,13 +247,18 @@
             gap: 10px;
         }
 
-        .notify-buttons button {
+        .notify-buttons button, .notify-buttons a {
             flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 13px;
             border: none;
             border-radius: 12px;
             height: 40px;
             cursor: pointer;
             font-weight: bold;
+            text-decoration: none;
         }
 
         .notify-primary {
@@ -274,7 +282,7 @@
 
             <div class="notify-buttons">
                 <button class="notify-secondary" id="notifyBtn1"></button>
-                <button class="notify-primary" id="notifyBtn2"></button>
+                <a href="#" class="notify-primary" id="notifyBtn2"></a>
             </div>
         </div>
     </div>
@@ -293,13 +301,15 @@
 
     <!-- Banner -->
     <div class="banner">
-        <span class="arrow left" onclick="prevImage()">&#10094;</span>
+        <span class="arrow left" onclick="prevImage()">&#10095;</span>
         <img id="banner-img" src="{{ asset('icons & images/product1.png') }}" alt="banner"/>
-        <span class="arrow right" onclick="nextImage()">&#10095;</span>
+        <span class="arrow right" onclick="nextImage()">&#10094;</span>
     </div>
 
     <!-- Product Info -->
-    <div class="product-box">
+    <form action="{{ route('cart.add') }}" method="post" class="product-box">
+        @csrf
+        <input name="productId" value="{{ $product->id }}" type="hidden">
         <div class="product-title">{{ $product->name }}</div>
 
         <div class="price-row">
@@ -307,16 +317,17 @@
             <span id="price-per-kg">{{ fa_digits(number_format($product->price)) }} تومان</span>
         </div>
 
+        @php($cartItem = auth()->user()?->cart?->items()->where('product_id',$product->id)->first())
         <div class="weight-section">
             <label for="weight-select">انتخاب وزن</label>
 
-            <select id="weight-select" onchange="updatePrice()">
-                <option value="500">۵۰۰ گرم</option>
-                <option value="1000" selected>۱ کیلوگرم</option>
-                <option value="2000">۲ کیلوگرم</option>
-                <option value="3000">۳ کیلوگرم</option>
-                <option value="4000">۴ کیلوگرم</option>
-                <option value="5000">۵ کیلوگرم</option>
+            <select name="amount" id="weight-select" onchange="updatePrice()">
+                <option @selected(old('amount', $cartItem?->amount) == 0.5) value="0.5">۵۰۰ گرم</option>
+                <option @selected(old('amount', $cartItem?->amount) == 1) value="1" selected>۱ کیلوگرم</option>
+                <option @selected(old('amount', $cartItem?->amount) == 2) value="2">۲ کیلوگرم</option>
+                <option @selected(old('amount', $cartItem?->amount) == 3) value="3">۳ کیلوگرم</option>
+                <option @selected(old('amount', $cartItem?->amount) == 4) value="4">۴ کیلوگرم</option>
+                <option @selected(old('amount', $cartItem?->amount) == 5) value="5">۵ کیلوگرم</option>
             </select>
         </div>
 
@@ -325,16 +336,20 @@
             <span id="product-price">{{fa_digits(number_format($product->price))}} تومان</span>
         </div>
 
-        <form action="" method="post" class="buttons">
-            @csrf
-            <button class="btn btn-add">
+        <div class="buttons">
+            <button @guest type="button" onclick="shouldBeLoggedInPopup()" @endguest class="btn btn-add">
                 <img src="{{ asset('icons & images/Bag.png') }}"/> افزودن به سبد
             </button>
-            {{--            <button class="btn btn-remove">--}}
-            {{--                <img src="{{ asset('icons & images/Close Square.png') }}" /> حذف از سبد--}}
-            {{--            </button>--}}
-        </form>
-    </div>
+            {{--                        <button form="removeFromCartForm" class="btn btn-remove">--}}
+            {{--                            <img src="{{ asset('icons & images/Close Square.png') }}" /> حذف از سبد--}}
+            {{--                        </button>--}}
+        </div>
+    </form>
+    {{--    <form action="" method="post" id="removeFromCartForm">--}}
+    {{--        @csrf--}}
+    {{--        @method('DELETE')--}}
+    {{--        --}}
+    {{--    </form>--}}
 
     <div class="bottom"></div>
 </div>
@@ -380,14 +395,14 @@
     const btn1 = document.getElementById('notifyBtn1')
     const btn2 = document.getElementById('notifyBtn2')
 
-    function openNotify(text, b1, b1Action, b2, b2Action) {
+    function openNotify(text, b1, b1Action, b2, b2Href) {
         notifyText.innerText = text
 
         btn1.innerText = b1
         btn2.innerText = b2
 
         btn1.onclick = b1Action
-        btn2.onclick = b2Action
+        btn2.href = b2Href
 
         notifyOverlay.classList.add('show')
     }
@@ -396,6 +411,24 @@
         notifyOverlay.classList.remove('show')
     }
 
+    @if(session('success'))
+    openNotify(
+        'محصول با موفقیت به سبد خرید شما اضافه شد.',
+        'ادامه خرید',
+        closeNotify,
+        'مشاهده سبد خرید',
+        '#'
+    )
+    @endif
+    function shouldBeLoggedInPopup() {
+        openNotify(
+            'ابتدا وارد حساب کاربری خود شوید.',
+            'ادامه خرید',
+            closeNotify,
+            'ورود',
+            '{{ route('login') }}',
+        )
+    }
     // document.querySelector('.btn-add').addEventListener('click', function () {
     //     if (!isLoggedIn) {
     //         openNotify(
