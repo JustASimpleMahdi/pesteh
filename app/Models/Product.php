@@ -10,10 +10,28 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['name', 'quantity', 'price', 'code'])]
 class Product extends Model
 {
+    protected static function booted(): void
+    {
+        static::updated(function (Product $product) {
+            if (!$product->wasChanged('quantity')) return;
+
+            $quantity = $product->quantity;
+            if ($product->cartItems()->exists()) {
+                if ($quantity === 0) {
+                    $product->cartItems()->update(['amount' => 0]);
+                } else {
+                    $product->cartItems()->where('amount', '>', $quantity)
+                        ->update(['amount' => $quantity]);
+                }
+            }
+        });
+    }
+
     public function cartItems(): HasMany
     {
         return $this->hasMany(CartItem::class);
     }
+
     public function casts(): array
     {
         return [

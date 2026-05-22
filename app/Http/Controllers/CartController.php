@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -30,8 +31,14 @@ class CartController extends Controller
     {
         $validated = $request->validate([
             'productId' => 'required|exists:products,id',
-            'amount' => 'required|numeric',
+            'amount' => 'required|numeric|gt:0',
         ]);
+
+        $product = Product::find($request->productId);
+        if ($validated['amount'] > $product->quantity) {
+            return back()->withInput()->withErrors(['quantity' => 'مقدار انتخاب شده از موجودی بیشتر است.']);
+        }
+
         $cart = auth()->user()->cart()->firstOrCreate();
         $cart->items()->updateOrCreate(['product_id' => $validated['productId']], [
             'product_id' => $validated['productId'],
