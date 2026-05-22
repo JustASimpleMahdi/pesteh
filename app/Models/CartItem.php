@@ -10,6 +10,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable(['amount', 'cart_id', 'product_id'])]
 class CartItem extends Model
 {
+    protected static function booted(): void
+    {
+        static::deleted(function ($cartItem) {
+            $cart = $cartItem->cart;
+
+            if ($cart && $cart->items()->doesntExist()) {
+                $cart->delete();
+            }
+        });
+    }
+
     public function cart(): BelongsTo
     {
         return $this->belongsTo(Cart::class);

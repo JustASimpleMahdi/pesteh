@@ -6,6 +6,19 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+    public function remove(Request $request)
+    {
+        $validated = $request->validate([
+            'productId' => 'required|exists:products,id',
+        ]);
+        $cart = auth()->user()->cart;
+        if ($cart) {
+            $item = $cart->items()->whereProductId($validated['productId'])->first();
+            $item->delete();
+        }
+
+        return back()->with('remove-success', 'محصول با موفقیت حذف شد.');
+    }
     public function index()
     {
 
@@ -25,6 +38,6 @@ class CartController extends Controller
             'amount' => $validated['amount'],
         ]);
 
-        return back()->with('success', 'محصول با موفقیت به سبد خرید اضافه شد.');
+        return back()->with('add-success', 'محصول با موفقیت به سبد خرید اضافه شد.');
     }
 }

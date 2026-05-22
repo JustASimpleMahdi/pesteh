@@ -24,6 +24,7 @@
         button {
             font-family: 'iranFont';
         }
+
         .container {
             width: 360px;
             height: 800px;
@@ -339,19 +340,22 @@
         </div>
 
         <div class="buttons">
-            <button @guest type="button" onclick="shouldBeLoggedInPopup()" @endguest class="btn btn-add">
-                <img src="{{ asset('icons & images/Bag.png') }}"/> افزودن به سبد
-            </button>
-            {{--                        <button form="removeFromCartForm" class="btn btn-remove">--}}
-            {{--                            <img src="{{ asset('icons & images/Close Square.png') }}" /> حذف از سبد--}}
-            {{--                        </button>--}}
+            @if(!$cartItem)
+                <button @guest type="button" onclick="shouldBeLoggedInPopup()" @endguest class="btn btn-add">
+                    <img src="{{ asset('icons & images/Bag.png') }}"/> افزودن به سبد
+                </button>
+            @else
+                <button form="removeFromCartForm" class="btn btn-remove">
+                    <img src="{{ asset('icons & images/Close Square.png') }}"/> حذف از سبد
+                </button>
+            @endif
         </div>
     </form>
-    {{--    <form action="" method="post" id="removeFromCartForm">--}}
-    {{--        @csrf--}}
-    {{--        @method('DELETE')--}}
-    {{--        --}}
-    {{--    </form>--}}
+    <form action="{{ route('cart.remove') }}" method="post" id="removeFromCartForm">
+        @csrf
+        @method('DELETE')
+        <input name="productId" value="{{ $product->id }}" type="hidden">
+    </form>
 
     <div class="bottom"></div>
 </div>
@@ -413,7 +417,7 @@
         notifyOverlay.classList.remove('show')
     }
 
-    @if(session('success'))
+    @if(session('add-success'))
     openNotify(
         'محصول با موفقیت به سبد خرید شما اضافه شد.',
         'ادامه خرید',
@@ -431,6 +435,7 @@
             '{{ route('login') }}',
         )
     }
+
     // document.querySelector('.btn-add').addEventListener('click', function () {
     //     if (!isLoggedIn) {
     //         openNotify(

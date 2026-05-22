@@ -227,8 +227,13 @@
                         src="{{ asset('icons & images/Close Square.png') }}"
                         alt="Remove"
                         class="close-btn"
-                        onclick="removeItem(this)"
+                        onclick="document.querySelector('form#removeCartItemForm{{$item->id}}').submit()"
                     />
+                    <form action="{{ route('cart.remove') }}" method="post" id="removeCartItemForm{{$item->id}}">
+                        @csrf
+                        @method('DELETE')
+                        <input name="productId" value="{{$item->product->id}}" type="hidden"/>
+                    </form>
                     <a href="{{ route('product.show',['code'=>$item->product->code]) }}" class="product-img">
                         <img src="{{ asset('icons & images/product1.png') }}" alt="Pistachio"/>
                     </a>
