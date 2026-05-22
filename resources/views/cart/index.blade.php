@@ -214,7 +214,8 @@
 <div class="mobile-container">
     <!-- Header -->
     <div class="header">
-        <img src="{{ asset('icons & images/Arrow - Left 2.png') }}" alt="Back" class="back-btn"/>
+        <img src="{{ asset('icons & images/Arrow - Left 2.png') }}" alt="Back" class="back-btn"
+             onclick="window.history.back()"/>
         <h1>سبد خرید</h1>
     </div>
 
