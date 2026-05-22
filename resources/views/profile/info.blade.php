@@ -221,7 +221,9 @@
             <a href="{{ route('profile') }}">
                 <img src="{{ asset('icons & images/Profile.png') }}" alt=""/>
             </a>
-            <img src="{{ asset('icons & images/Bag 2.png') }}"/>
+            <a href="{{ route('cart') }}">
+                <img src="{{ asset('icons & images/Bag 2.png') }}" alt=""/>
+            </a>
         </div>
     </header>
 

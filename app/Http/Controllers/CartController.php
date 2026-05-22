@@ -6,6 +6,13 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+    public function index()
+    {
+
+        $cart = auth()->user()->cart;
+
+        return view('cart.index', compact('cart'));
+    }
     public function addToCart(Request $request)
     {
         $validated = $request->validate([

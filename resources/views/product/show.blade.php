@@ -290,7 +290,9 @@
     <!-- Header -->
     <div class="header">
         <div class="header-left">
-            <img src="{{ asset('icons & images/Bag.png') }}" alt="سبد خرید"/>
+            <a href="{{ route('cart') }}">
+                <img src="{{ asset('icons & images/Bag.png') }}" alt="سبد خرید"/>
+            </a>
             <a href="{{ route('profile') }}"><img src="{{ asset('icons & images/Profile.png') }}"
                                                   alt="حساب کاربری"/></a>
         </div>
@@ -365,7 +367,7 @@
 
     function updatePrice() {
         const weight = parseInt(weightSelect.value)
-        const price = (pricePerKg * weight) / 1000
+        const price = (pricePerKg * weight)
         productPrice.textContent = `${formatNumber(price)} تومان`
     }
 
@@ -417,7 +419,7 @@
         'ادامه خرید',
         closeNotify,
         'مشاهده سبد خرید',
-        '#'
+        '{{ route('cart') }}'
     )
     @endif
     function shouldBeLoggedInPopup() {

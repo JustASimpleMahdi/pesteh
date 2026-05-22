@@ -216,11 +216,12 @@
                     alt="Profile"
                 />
             </a>
-            <img
-                src="{{ asset('icons & images/Bag 2.png') }}"
-                onclick="window.location.href = 'cart.html'"
-                alt="Cart"
-            />
+            <a href="{{ route('cart') }}">
+                <img
+                    src="{{ asset('icons & images/Bag 2.png') }}"
+                    alt=""
+                />
+            </a>
         </div>
     </header>
 
