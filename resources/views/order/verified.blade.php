@@ -169,7 +169,7 @@
                 <img src="{{ asset('/icons & images/Shield Done.png') }}" alt="موفق">
             </div>
             <div class="status-box">
-                <span>کد سفارش: {{$order->payment->ref_id}}</span>
+                <span>کد سفارش: {{$order->code}}</span>
             </div>
             <div class="status-box">
                 <span>شماره تراکنش: {{$order->payment->ref_id}}</span>

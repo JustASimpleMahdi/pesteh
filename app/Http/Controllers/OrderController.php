@@ -75,9 +75,10 @@ class OrderController extends Controller
 
     public function verifiedOrder(Order $order)
     {
+        if ($order->user()->isNot(auth()->user())) abort(403);
+
         if (!($order->status === OrderStatusEnum::PAYMENT_SUCCESS || $order->status === OrderStatusEnum::PAYMENT_FAIL))
             abort(403);
-
         $order->load('payment');
 
         return view('order.verified', ['order' => $order]);

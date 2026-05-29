@@ -27,7 +27,7 @@ class Order extends Model
     protected static function generateUniqueCode(): string
     {
         do {
-            $code = 'ORD-' . Jalalian::now()->format('Ymd') . strtoupper(Str::random(8));
+            $code = 'ORD-' . Jalalian::now()->format('Ymd') . '-' . strtoupper(Str::random(3));
         } while (self::where('code', $code)->exists());
 
         return $code;
