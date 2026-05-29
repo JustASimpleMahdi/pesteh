@@ -6,10 +6,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/payment/verify', fn(Request $request) => response($request->query()))->name('payment.verify');
+Route::get('/order/{order}/verified/', [OrderController::class, 'verifiedOrder'])->name('order.verified');
+Route::get('/payment/verify', [OrderController::class, 'verifyPayment'])->name('payment.verify');
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/order', [OrderController::class, 'store'])->name('order.store');

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatusEnum;
+use App\Models\Order;
+use App\Models\Payment;
 use App\Services\PaymentService;
 use DB;
 use Illuminate\Http\Request;
@@ -56,5 +59,27 @@ class OrderController extends Controller
         });
 
         return redirect()->away($url);
+    }
+
+    public function verifyPayment(Request $request)
+    {
+        $authority = $request->input('Authority');
+        $status = $request->input('Status');
+
+        $payment = Payment::where('authority', $authority)->firstOrFail();
+
+        PaymentService::verify($payment);
+
+        return redirect()->route('order.verified', ['order' => $payment->order_id]);
+    }
+
+    public function verifiedOrder(Order $order)
+    {
+        if (!($order->status === OrderStatusEnum::PAYMENT_SUCCESS || $order->status === OrderStatusEnum::PAYMENT_FAIL))
+            abort(403);
+
+        $order->load('payment');
+
+        return view('order.verified', ['order' => $order]);
     }
 }
