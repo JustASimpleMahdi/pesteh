@@ -188,6 +188,9 @@
             color: #d0d2a1;
             border: none;
             width: 100%;
+            display: block;
+            text-align: center;
+            box-sizing: border-box;
             padding: 14px;
             border-radius: 25px;
             font-size: 17px;
@@ -277,7 +280,7 @@
                 <span id="total">{{ fa_digits(number_format($cart->totalPrice)) }} تومان</span>
             </div>
 
-            <button class="checkout-btn">ثبت سفارش</button>
+            <a href="{{ route('order') }}" class="checkout-btn">ثبت سفارش</a>
         </div>
     @endif
 </div>

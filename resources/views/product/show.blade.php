@@ -336,7 +336,7 @@
 
         <div class="amount-row">
             <span>مبلغ محصول</span>
-            <span id="product-price">{{fa_digits(number_format($product->price))}} تومان</span>
+            <span id="product-price">{{fa_digits(number_format($cartItem?->price ?? $product->price))}} تومان</span>
         </div>
 
         <div class="buttons">
@@ -345,6 +345,9 @@
                     <img src="{{ asset('icons & images/Bag.png') }}"/> افزودن به سبد
                 </button>
             @else
+                <button class="btn btn-add">
+                    <img src="{{ asset('icons & images/Bag.png') }}"/> ویرایش سبد
+                </button>
                 <button form="removeFromCartForm" class="btn btn-remove">
                     <img src="{{ asset('icons & images/Close Square.png') }}"/> حذف از سبد
                 </button>

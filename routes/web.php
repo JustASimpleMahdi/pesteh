@@ -3,10 +3,20 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/payment/verify', fn(Request $request) => response($request->query()))->name('payment.verify');
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+    Route::get('/order', [OrderController::class, 'index'])->name('order');
+});
+
+/* Cart */
 Route::middleware(['auth'])->group(function () {
     Route::delete('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
