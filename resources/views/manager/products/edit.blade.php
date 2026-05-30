@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=360, initial-scale=1.0"/>
-    <title>پنل مدیریت | Pistachio</title>
+    <title>پنل محصول | Pistachio</title>
     <style>
         @font-face {
             font-family: 'iranFont';
-            src: url('{{ asset('fonts/Iranian Sans.ttf') }}');
+            src: url('/fonts/Iranian\ Sans.ttf');
         }
 
         * {
@@ -16,10 +16,11 @@
         }
 
         body {
+            font-family: 'iranFont';
             margin: 0;
             padding: 0;
             background-color: #f0f0f0; /* پس‌زمینه برای حالت دسکتاپ */
-            font-family: 'iranFont';
+            font-family: 'iranFont', Tahoma, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -100,6 +101,31 @@
             flex-direction: column;
         }
 
+        .input-box {
+            width: 180px;
+            height: 39px;
+            background: #eaeaea;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8px;
+        }
+
+        .input-box input {
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-size: 14px;
+            pointer-events: none;
+            width: 100%;
+        }
+
+        .input-box img {
+            width: 18px;
+            cursor: pointer;
+        }
+
         .panel-title-text {
             color: #6d710d;
             font-weight: bold;
@@ -121,11 +147,25 @@
         .row-right {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 1px;
         }
 
         .row-right img {
-            width: 22px; /* آیکون‌های سند و آمار */
+            width: 22px;
+            height: 22px; /* آیکون‌های سند و آمار */
+        }
+
+        .row-rightt img {
+            display: flex;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            margin-right: 150px;
+        }
+
+        .weight {
+            width: 100px;
+            height: 30px;
         }
 
         .row-right span {
@@ -138,11 +178,25 @@
             cursor: pointer;
         }
 
+        /* دکمه ثبت */
+        .submit-btn {
+            width: 262px;
+            height: 62px;
+            margin-top: 130px;
+            margin-right: 50px;
+            background-color: #6d710d;
+            border: none;
+            border-radius: 30px;
+            color: #d0d2a1;
+            font-family: 'IranSans';
+            font-size: 18px;
+            cursor: pointer;
+        }
+
         /* فوتر نهایی */
         .footer-container {
             width: 100%;
             height: 160px;
-            position: absolute;
             bottom: 0;
             border-top: 1px solid #e0e0e0;
             display: flex;
@@ -181,6 +235,14 @@
             width: 28px;
             cursor: pointer;
         }
+
+        .update-success {
+            background-color: limegreen;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -211,102 +273,111 @@
         </div>
     </header>
 
+
     <!-- نوار سبز مدیریت -->
     <div class="sub-header-green">
-        <div class="back-btn" onclick="history.back()">
-            <img src="{{ asset('/icons & images/Arrow - Left 2.png') }}" alt="Back"/>
-        </div>
-        مدیریت
+        <a href="{{ route('manager.products.index') }}" class="back-btn">
+            <img src="/icons & images/Arrow - Left 2.png" alt="Back"/>
+        </a>
+        محصولات
     </div>
 
+    @session('update-success')
+    <div class="update-success">
+        اطلاعات با موفقیت بروزرسانی شد.
+    </div>
+    @endsession
+
     <!-- باکس لیست مدیریت -->
-    <div class="main-panel-box">
-        <div class="panel-title-text">پنل مدیریت</div>
+    <form action="{{ route('manager.products.update',['product' => $product]) }}" method="post" class="main-panel-box">
+        @csrf
+        @method('PUT')
+        <div class="panel-title-text">{{ $product->name }}</div>
 
         <!-- لیست محصولات -->
-        <a href="{{ route('manager.products.index') }}" class="list-row">
-            <div class="row-right">
-                <img src="{{ asset('/icons & images/Document.png') }}" alt="Icon"/>
+        <div class="list-row">
+            <div class="row-rightt">
+                <img src="/icons & images/pestashio.png" alt="Icon"/>
                 <!-- از آیکون Document خودت استفاده کن -->
-                <span>لیست محصولات</span>
             </div>
-            <div class="row-left">
-                <img
-                    src="{{ asset('/icons & images/Arrow - Left 2.png') }}"
-                    alt="Go"
-                />
-            </div>
-        </a>
+        </div>
 
         <!-- لیست فروش -->
         <div class="list-row">
             <div class="row-right">
-                <img src="{{ asset('/icons & images/Document.png') }}" alt="Icon"/>
-                <span>لیست فروش</span>
+                <img src="/icons & images/وزن.png" alt="Icon" class="weight"/>
+                <span>وزن: (کیلوگرم)</span>
             </div>
             <div class="row-left">
-                <img
-                    src="{{ asset('/icons & images/Arrow - Left 2.png') }}"
-                    onclick="window.location.href = 'sales-list.html'"
-                    alt="Go"
-                />
+                <div class="input-box">
+                    <input name="quantity" value="{{ $product->quantity }}" id="stockInput" type="text"/>
+                    <img
+                        src="/icons & images/Edit.png"
+                        onclick="enableEdit('stockInput')"
+                        alt="edit"
+                    />
+                </div>
             </div>
         </div>
 
         <!-- آمار فروش -->
         <div class="list-row">
             <div class="row-right">
-                <img src="{{ asset('/icons & images/Chart.png') }}" alt="Icon"/>
+                <img src="/icons & images/Chart.png" alt="Icon"/>
                 <!-- آیکون نموداری -->
-                <span>آمار فروش</span>
+                <span>قیمت</span>
             </div>
             <div class="row-left">
-                <img
-                    src="{{ asset('/icons & images/Arrow - Left 2.png') }}"
-                    onclick="window.location.href = 'analytics.html'"
-                    alt="Go"
-                />
+                <div class="input-box">
+                    <input name="price" id="priceInput" type="text" value="{{ $product->price }}"/>
+                    <img
+                        src="/icons & images/Edit.png"
+                        onclick="enableEdit('priceInput')"
+                        alt="edit"
+                    />
+                </div>
             </div>
         </div>
         <div class="list-row"></div>
-    </div>
 
+        <button class="submit-btn">ثبت</button>
+    </form>
     <!-- فوتر -->
     <footer class="footer-container">
         <!-- اطلاعات تماس سمت راست -->
         <div class="footer-right-contact">
             <div class="contact-item">
-                <img src="{{ asset('/icons & images/Message.png') }}" alt="Email"/>
+                <img src="/icons & images/Message.png" alt="Email"/>
                 <span>peste.sh@gmail.com :ایمیل</span>
             </div>
             <div class="contact-item">
-                <img src="{{ asset('/icons & images/Location.png') }}" alt="Loc"/>
+                <img src="/icons & images/Location.png" alt="Loc"/>
                 <span>آدرس: کیلومتر ۲۰ بجنورد</span>
             </div>
             <div class="contact-item">
-                <img src="{{ asset('/icons & images/Call.png') }}" alt="Phone"/>
+                <img src="/icons & images/Call.png" alt="Phone"/>
                 <span>تلفن: ۰۵۸۳۳۲۴۱۵۶</span>
             </div>
         </div>
         <!-- آیکون‌های مجازی سمت چپ -->
         <div class="footer-left-socials">
             <img
-                src="{{ asset('/icons & images/Instagram.png') }}"
+                src="/icons & images/Instagram.png"
                 onclick="window.location.href = 'https://instagr.am/peste'"
                 alt="IG"
             />
             <img
-                src="{{ asset('/icons & images/Telegram.png') }}"
+                src="/icons & images/Telegram.png"
                 onclick="window.location.href = 'https://t.me/peste'"
                 alt="TG"
             />
             <img
-                src="{{ asset('/icons & images/Enamad.png') }}"
+                src="/icons & images/Enamad.png"
                 onclick="window.location.href = '#'"
                 alt="Enamad"
             />
             <img
-                src="{{ asset('/icons & images/Youtube.png') }}"
+                src="/icons & images/Youtube.png"
                 onclick="window.location.href = '#'"
                 alt="YT"
             />
@@ -314,5 +385,14 @@
     </footer>
 </div>
 
+<script>
+    /* اجازه ویرایش عدد با کلیک */
+    function enableEdit(id) {
+        const input = document.getElementById(id)
+        input.style.pointerEvents = 'auto'
+        input.focus()
+    }
+
+</script>
 </body>
 </html>

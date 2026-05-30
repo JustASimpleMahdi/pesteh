@@ -17,7 +17,7 @@ class Product extends Model
 
             $quantity = $product->quantity;
             if ($product->cartItems()->exists()) {
-                if ($quantity === 0) {
+                if ((int)$quantity === 0) {
                     $product->cartItems()->each(function (CartItem $cartItem) {
                         $cartItem->delete();
                     });

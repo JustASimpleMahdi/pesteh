@@ -26,7 +26,7 @@ class AuthController extends Controller
         if (auth()->user()->is_manager) {
             return redirect()->route('manager');
         }
-        return redirect()->intended('home');
+        return redirect()->intended(route('home'));
     }
     public function signin(Request $request){
         return view('auth.signin');

@@ -1,13 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=360, initial-scale=1.0"/>
-    <title>پنل مدیریت | Pistachio</title>
+    <title>لیست محصولات| Pistachio</title>
     <style>
         @font-face {
             font-family: 'iranFont';
-            src: url('{{ asset('fonts/Iranian Sans.ttf') }}');
+            src: url("{{ asset('fonts/Iranian Sans.ttf') }}");
         }
 
         * {
@@ -19,7 +19,7 @@
             margin: 0;
             padding: 0;
             background-color: #f0f0f0; /* پس‌زمینه برای حالت دسکتاپ */
-            font-family: 'iranFont';
+            font-family: 'iranFont', Tahoma, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -55,6 +55,7 @@
         .header-top .icons-left {
             display: flex;
             gap: 15px;
+
         }
 
         .header-top .icons-left img {
@@ -67,7 +68,7 @@
         .sub-header-green {
             width: 100%;
             height: 60px;
-            background-color: #6d710d;
+            background-color: #6D710D;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -93,7 +94,7 @@
             height: 506px;
             margin: 15px auto;
             margin-top: 0px;
-            border: 1px solid #d1d1d1;
+            border: 1px solid #D1D1D1;
             border-radius: 20px;
             padding: 15px 0;
             display: flex;
@@ -101,7 +102,7 @@
         }
 
         .panel-title-text {
-            color: #6d710d;
+            color: #6D710D;
             font-weight: bold;
             font-size: 17px;
             padding-right: 20px;
@@ -115,13 +116,13 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 15px;
-            border-top: 1px solid #6d710d;
+            border-top: 1px solid #6D710D;
         }
 
         .row-right {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 1px;
         }
 
         .row-right img {
@@ -144,7 +145,7 @@
             height: 160px;
             position: absolute;
             bottom: 0;
-            border-top: 1px solid #e0e0e0;
+            border-top: 1px solid #E0E0E0;
             display: flex;
             padding: 15px;
             justify-content: space-between;
@@ -181,9 +182,11 @@
             width: 28px;
             cursor: pointer;
         }
+
     </style>
 </head>
 <body>
+
 <div class="app-frame">
     <!-- هدر -->
     <header class="header-top">
@@ -211,106 +214,64 @@
         </div>
     </header>
 
+
     <!-- نوار سبز مدیریت -->
     <div class="sub-header-green">
         <div class="back-btn" onclick="history.back()">
-            <img src="{{ asset('/icons & images/Arrow - Left 2.png') }}" alt="Back"/>
+            <img src="{{ asset('icons & images/Arrow - Left 2.png') }}" alt="Back">
         </div>
-        مدیریت
+        محصولات
     </div>
 
     <!-- باکس لیست مدیریت -->
     <div class="main-panel-box">
-        <div class="panel-title-text">پنل مدیریت</div>
+        <div class="panel-title-text"> مدیریت محصولات</div>
 
-        <!-- لیست محصولات -->
-        <a href="{{ route('manager.products.index') }}" class="list-row">
-            <div class="row-right">
-                <img src="{{ asset('/icons & images/Document.png') }}" alt="Icon"/>
-                <!-- از آیکون Document خودت استفاده کن -->
-                <span>لیست محصولات</span>
-            </div>
-            <div class="row-left">
-                <img
-                    src="{{ asset('/icons & images/Arrow - Left 2.png') }}"
-                    alt="Go"
-                />
-            </div>
-        </a>
+        @foreach($products as $product)
+            <a href="{{ route('manager.products.edit',['product' => $product]) }}" class="list-row">
+                <div class="row-right">
+                    <img src="{{ asset('icons & images/pestashio.png') }}" alt="Icon">
+                    <span>{{ $product->name }}</span>
+                </div>
+                <div class="row-left">
+                    <img src="{{ asset('icons & images/Arrow - Left 2.png') }}" alt="Go">
+                </div>
+            </a>
+        @endforeach
 
         <!-- لیست فروش -->
-        <div class="list-row">
-            <div class="row-right">
-                <img src="{{ asset('/icons & images/Document.png') }}" alt="Icon"/>
-                <span>لیست فروش</span>
-            </div>
-            <div class="row-left">
-                <img
-                    src="{{ asset('/icons & images/Arrow - Left 2.png') }}"
-                    onclick="window.location.href = 'sales-list.html'"
-                    alt="Go"
-                />
-            </div>
-        </div>
-
-        <!-- آمار فروش -->
-        <div class="list-row">
-            <div class="row-right">
-                <img src="{{ asset('/icons & images/Chart.png') }}" alt="Icon"/>
-                <!-- آیکون نموداری -->
-                <span>آمار فروش</span>
-            </div>
-            <div class="row-left">
-                <img
-                    src="{{ asset('/icons & images/Arrow - Left 2.png') }}"
-                    onclick="window.location.href = 'analytics.html'"
-                    alt="Go"
-                />
-            </div>
-        </div>
         <div class="list-row"></div>
     </div>
 
     <!-- فوتر -->
     <footer class="footer-container">
+
+
         <!-- اطلاعات تماس سمت راست -->
         <div class="footer-right-contact">
             <div class="contact-item">
-                <img src="{{ asset('/icons & images/Message.png') }}" alt="Email"/>
+                <img src="{{ asset('icons & images/Message.png') }}" alt="Email">
                 <span>peste.sh@gmail.com :ایمیل</span>
             </div>
             <div class="contact-item">
-                <img src="{{ asset('/icons & images/Location.png') }}" alt="Loc"/>
+                <img src="{{ asset('icons & images/Location.png') }}" alt="Loc">
                 <span>آدرس: کیلومتر ۲۰ بجنورد</span>
             </div>
             <div class="contact-item">
-                <img src="{{ asset('/icons & images/Call.png') }}" alt="Phone"/>
+                <img src="{{ asset('icons & images/Call.png') }}" alt="Phone">
                 <span>تلفن: ۰۵۸۳۳۲۴۱۵۶</span>
             </div>
         </div>
         <!-- آیکون‌های مجازی سمت چپ -->
         <div class="footer-left-socials">
-            <img
-                src="{{ asset('/icons & images/Instagram.png') }}"
-                onclick="window.location.href = 'https://instagr.am/peste'"
-                alt="IG"
-            />
-            <img
-                src="{{ asset('/icons & images/Telegram.png') }}"
-                onclick="window.location.href = 'https://t.me/peste'"
-                alt="TG"
-            />
-            <img
-                src="{{ asset('/icons & images/Enamad.png') }}"
-                onclick="window.location.href = '#'"
-                alt="Enamad"
-            />
-            <img
-                src="{{ asset('/icons & images/Youtube.png') }}"
-                onclick="window.location.href = '#'"
-                alt="YT"
-            />
+            <img src="{{ asset('icons & images/Instagram.png') }}"
+                 onclick="window.location.href='https://instagr.am/peste'" alt="IG">
+            <img src="{{ asset('icons & images/Telegram.png') }}" onclick="window.location.href='https://t.me/peste'"
+                 alt="TG">
+            <img src="{{ asset('icons & images/Enamad.png') }}" onclick="window.location.href='#'" alt="Enamad">
+            <img src="{{ asset('icons & images/Youtube.png') }}" onclick="window.location.href='#'" alt="YT">
         </div>
+
     </footer>
 </div>
 
