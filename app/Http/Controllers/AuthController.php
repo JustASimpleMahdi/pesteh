@@ -22,6 +22,10 @@ class AuthController extends Controller
         if (!Auth::attempt($validated, true)) {
             return back()->withInput()->withErrors(['login'=>'نام کاربری یا رمز عبور اشتباه است.']);
         }
+
+        if (auth()->user()->is_manager) {
+            return redirect()->route('manager');
+        }
         return redirect()->intended('home');
     }
     public function signin(Request $request){

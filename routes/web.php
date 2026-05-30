@@ -9,6 +9,12 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+Route::prefix('manager')->middleware(['auth', 'manager'])->group(function () {
+    Route::get('/', function () {
+        return view('manager.index');
+    })->name('manager');
+});
+
 Route::get('/payment/verify', [OrderController::class, 'verifyPayment'])->name('payment.verify');
 
 Route::middleware(['auth'])->group(function () {
