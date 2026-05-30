@@ -31,17 +31,20 @@ class OrdersController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Order $order)
     {
-        //
+        $order->load(['receiver', 'items', 'items.product', 'payment']);
+        return view('manager.orders.show', compact('order'));
     }
 
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Order $order)
     {
-        //
+        $order->status = OrderStatusEnum::CONFIRMED;
+        $order->save();
+        return redirect()->route('manager.orders.show', compact('order'));
     }
 }

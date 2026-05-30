@@ -7,7 +7,8 @@ return [
     'status' => [
         OrderStatusEnum::PENDING->value => 'در حال پردازش',
         OrderStatusEnum::FAILED->value => 'ناموفق',
-        OrderStatusEnum::PAYMENT_PENDING->value => 'در انتظار پرداخت'
+        OrderStatusEnum::PAYMENT_PENDING->value => 'در انتظار پرداخت',
+        OrderStatusEnum::CONFIRMED->value => 'تایید شده'
     ],
     'payment' => [
         'status' => [
@@ -20,7 +21,8 @@ return [
         'status' => [
             OrderStatusEnum::PENDING->value => 'در انتظار تایید',
             OrderStatusEnum::FAILED->value => 'ناموفق',
-            OrderStatusEnum::PAYMENT_PENDING->value => 'در انتظار پرداخت'
+            OrderStatusEnum::PAYMENT_PENDING->value => 'در انتظار پرداخت',
+            OrderStatusEnum::CONFIRMED->value => 'تایید شده',
         ],
     ]
 ];

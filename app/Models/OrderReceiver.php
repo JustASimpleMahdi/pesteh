@@ -28,4 +28,9 @@ class OrderReceiver extends Model
     {
         return Attribute::get(fn() => $this->firstname . ' ' . $this->lastname);
     }
+
+    protected function fullAddress(): Attribute
+    {
+        return Attribute::get(fn() => implode('، ', [$this->province, $this->city, $this->address]));
+    }
 }
