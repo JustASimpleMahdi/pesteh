@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
-use Morilog\Jalali\Jalalian;
 
 #[Fillable('status')]
 class Order extends Model
@@ -27,8 +26,10 @@ class Order extends Model
 
     protected static function generateUniqueCode(): string
     {
+        $hash = base_convert(now()->timestamp, 10, 36); // Convert to base36
+
         do {
-            $code = 'ORD-' . Jalalian::now()->format('Ymd') . '-' . strtoupper(Str::random(3));
+            $code = 'ORD-' . strtoupper($hash . Str::random(2));
         } while (self::where('code', $code)->exists());
 
         return $code;

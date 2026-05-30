@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Manager\OrdersController;
 use App\Http\Controllers\Manager\ProductController as ManagerProductController;
 use App\Http\Controllers\MyOrdersController;
 use App\Http\Controllers\OrderController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('manager')->middleware(['auth', 'manager'])->group(function () {
+    Route::resource('orders', OrdersController::class)->except(['edit', 'create', 'store', 'destroy'])->names('manager.orders');
     Route::resource('products', ManagerProductController::class)->except(['show', 'create', 'store', 'destroy'])->names('manager.products');
     Route::get('/', function () {
         return view('manager.index');

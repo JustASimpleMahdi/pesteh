@@ -15,5 +15,12 @@ return [
             PaymentStatusEnum::SUCCESS->value => 'موفق',
             PaymentStatusEnum::FAIL->value => 'ناموفق'
         ]
+    ],
+    'manager' => [
+        'status' => [
+            OrderStatusEnum::PENDING->value => 'در انتظار تایید',
+            OrderStatusEnum::FAILED->value => 'ناموفق',
+            OrderStatusEnum::PAYMENT_PENDING->value => 'در انتظار پرداخت'
+        ],
     ]
 ];

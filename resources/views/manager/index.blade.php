@@ -239,7 +239,7 @@
         </a>
 
         <!-- لیست فروش -->
-        <div class="list-row">
+        <a href="{{ route('manager.orders.index') }}" class="list-row">
             <div class="row-right">
                 <img src="{{ asset('/icons & images/Document.png') }}" alt="Icon"/>
                 <span>لیست فروش</span>
@@ -251,7 +251,7 @@
                     alt="Go"
                 />
             </div>
-        </div>
+        </a>
 
         <!-- آمار فروش -->
         <div class="list-row">
