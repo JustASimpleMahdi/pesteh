@@ -80,7 +80,7 @@ class PaymentService
      * @param Payment $payment
      * @return Payment
      */
-    public static function verify(Payment $payment): Payment
+    public static function verify(Payment $payment): void
     {
         $paymentGateway = self::getPaymentGateway();
 
@@ -88,22 +88,33 @@ class PaymentService
         $verifyRequest->authority = $payment->authority;
         $verifyRequest->amount = $payment->amount;
 
-        $response = $paymentGateway->verify($verifyRequest);
 
-        $payment = DB::transaction(function () use ($response, $payment) {
-            if ($response->code === 100 || $response->code === 101) {
-                $payment->update([
-                    'status' => PaymentStatusEnum::SUCCESS,
-                    'ref_id' => $response->ref_id,
-                    'status_code' => $response->code,
-                ]);
-                $payment->order()->update([
-                    'status' => OrderStatusEnum::PENDING
-                ]);
-            } else {
+        DB::transaction(function () use ($paymentGateway, $verifyRequest, $payment) {
+            try {
+                $response = $paymentGateway->verify($verifyRequest);
+
+                if ($response->code === 100 || $response->code === 101) {
+                    $payment->update([
+                        'status' => PaymentStatusEnum::SUCCESS,
+                        'ref_id' => $response->ref_id,
+                        'status_code' => $response->code,
+                    ]);
+                    $payment->order()->update([
+                        'status' => OrderStatusEnum::PENDING
+                    ]);
+                } else {
+                    $payment->update([
+                        'status' => PaymentStatusEnum::FAIL,
+                        'status_code' => $response->code,
+                    ]);
+                    $payment->order()->update([
+                        'status' => OrderStatusEnum::FAILED
+                    ]);
+                }
+            } catch (ResponseException $e) {
                 $payment->update([
                     'status' => PaymentStatusEnum::FAIL,
-                    'status_code' => $response->code,
+                    'status_code' => $e->getCode(),
                 ]);
                 $payment->order()->update([
                     'status' => OrderStatusEnum::FAILED
@@ -111,7 +122,5 @@ class PaymentService
             }
             return $payment;
         });
-
-        return $payment;
     }
 }

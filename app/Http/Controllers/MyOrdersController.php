@@ -11,9 +11,9 @@ class MyOrdersController extends Controller
         $user = auth()->user();
 
         $currentOrders = $user->orders()->with('items', 'items.product', 'receiver', 'payment')
-            ->where('status', OrderStatusEnum::PENDING)->get();
+            ->where('status', OrderStatusEnum::PENDING)->latest('updated_at')->get();
         $otherOrders = $user->orders()->with('items', 'items.product', 'receiver', 'payment')
-            ->whereNot('status', OrderStatusEnum::PENDING)->get();
+            ->whereNot('status', OrderStatusEnum::PENDING)->latest('updated_at')->get();
 
         return view('my-order.index', compact('currentOrders', 'otherOrders'));
     }

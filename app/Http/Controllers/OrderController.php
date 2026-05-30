@@ -70,7 +70,10 @@ class OrderController extends Controller
 
         $payment = Payment::where('authority', $authority)->firstOrFail();
 
+        if ($payment->status !== PaymentStatusEnum::PENDING) abort(401);
+
         PaymentService::verify($payment);
+
 
         $order = $payment->order;
         if ($order->status === OrderStatusEnum::PENDING) {
