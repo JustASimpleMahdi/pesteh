@@ -160,7 +160,7 @@
             background: #eaeaea;
             color: #333;
             font-size: 14px;
-            font-family: 'IranSans', Tahoma, sans-serif;
+            font-family: 'iranFont', Tahoma, sans-serif;
             padding: 0 45px 0 15px;
             appearance: none;
             -webkit-appearance: none;
@@ -211,7 +211,7 @@
             outline: none;
             background: transparent;
             resize: none;
-            font-family: 'IranSans', Tahoma, sans-serif;
+            font-family: 'iranFont', Tahoma, sans-serif;
             font-size: 15px;
             color: #222;
             line-height: 1.8; /* افزایش فاصله خطوط */
@@ -260,7 +260,7 @@
             border-radius: 30px;
             background: #73770b; /* رنگ سبز زیتونی */
             color: #f3f0de;
-            font-family: 'IranSans', Tahoma, sans-serif;
+            font-family: 'iranFont', Tahoma, sans-serif;
             font-size: 20px;
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(115, 119, 11, 0.4); /* سایه برای دکمه */

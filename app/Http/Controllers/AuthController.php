@@ -19,10 +19,10 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        if(!Auth::attempt($validated)){
+        if (!Auth::attempt($validated, true)) {
             return back()->withInput()->withErrors(['login'=>'نام کاربری یا رمز عبور اشتباه است.']);
         }
-        return redirect()->route('home');
+        return redirect()->intended('home');
     }
     public function signin(Request $request){
         return view('auth.signin');

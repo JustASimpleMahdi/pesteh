@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MyOrdersController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/payment/verify', [OrderController::class, 'verifyPayment'])->name('payment.verify');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/orders', [MyOrdersController::class, 'index'])->name('my-orders.index');
     Route::get('/order/{order}/verified/', [OrderController::class, 'verifiedOrder'])->name('order.verified');
     Route::post('/order', [OrderController::class, 'store'])->name('order.store');
     Route::get('/order', [OrderController::class, 'index'])->name('order');

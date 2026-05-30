@@ -267,7 +267,7 @@
         </a>
 
         <!-- آمار فروش -->
-        <div class="list-row">
+        <a href="{{ route('my-orders.index') }}" class="list-row">
             <div class="row-right">
                 <img src="{{ asset('icons & images/Buy.png') }}" alt="Icon"/>
                 <!-- آیکون نموداری -->
@@ -279,7 +279,7 @@
                     alt="Go"
                 />
             </div>
-        </div>
+        </a>
 
         <form class="logout-form" action="{{ route('logout') }}" method="post">
             @csrf

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\OrderStatusEnum;
+use App\Enums\PaymentStatusEnum;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Services\PaymentService;
@@ -77,9 +77,10 @@ class OrderController extends Controller
     {
         if ($order->user()->isNot(auth()->user())) abort(403);
 
-        if (!($order->status === OrderStatusEnum::PAYMENT_SUCCESS || $order->status === OrderStatusEnum::PAYMENT_FAIL))
-            abort(403);
         $order->load('payment');
+
+        if ($order->payment->status === PaymentStatusEnum::PENDING)
+            abort(403);
 
         return view('order.verified', ['order' => $order]);
     }

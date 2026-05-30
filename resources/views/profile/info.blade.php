@@ -134,7 +134,7 @@
             border-radius: 12px;
             padding: 8px 12px 8px 35px;
             width: 100%;
-            font-family: 'IranSans';
+            font-family: 'iranFont';
             font-size: 13px;
             text-align: center;
         }

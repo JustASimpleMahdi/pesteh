@@ -352,12 +352,7 @@
             @foreach($products->chunk(2) as $productsPage)
                 <div class="product-page">
                     @foreach($productsPage as $product)
-                        @php($image = match ($product->code) {
-                            ProductCodeEnum::akbari_sade => asset('icons & images/product1.png'),
-                            ProductCodeEnum::kalegoochi_sade => asset('icons & images/product2.png'),
-                            ProductCodeEnum::akbari_namaki => asset('icons & images/product1.png'),
-                            ProductCodeEnum::kalegoochi_namaki => asset('icons & images/product2.png')
-                        })
+                        @php($image = product_image_asset($product->code))
                         @php($price = fa_digits(number_format($product->price)))
                         <a href="{{ route('product.show',['code' => $product->code ]) }}" class="product-card">
                             <img src="{{ $image  }}" alt="{{ $product->name }}"/>

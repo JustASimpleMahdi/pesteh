@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\JalaliCast;
+use App\Enums\OrderStatusEnum;
 use App\Enums\SettingsKeyEnum;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -56,6 +57,7 @@ class Order extends Model
     protected function casts(): array
     {
         return [
+            'status' => OrderStatusEnum::class,
             'created_at' => JalaliCast::class,
             'updated_at' => JalaliCast::class,
         ];

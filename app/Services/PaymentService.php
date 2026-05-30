@@ -98,7 +98,7 @@ class PaymentService
                     'status_code' => $response->code,
                 ]);
                 $payment->order()->update([
-                    'status' => OrderStatusEnum::PAYMENT_SUCCESS
+                    'status' => OrderStatusEnum::PENDING
                 ]);
             } else {
                 $payment->update([
@@ -106,7 +106,7 @@ class PaymentService
                     'status_code' => $response->code,
                 ]);
                 $payment->order()->update([
-                    'status' => OrderStatusEnum::PAYMENT_FAIL
+                    'status' => OrderStatusEnum::FAILED
                 ]);
             }
             return $payment;
