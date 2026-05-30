@@ -448,6 +448,12 @@
 
             <div class="order-info">
                 <div class="order-row">
+                    <span class="label">هزینه ارسال</span>
+                    <span class="value">
+                               {{ toman($order->shipping_cost) }}
+                    </span>
+                </div>
+                <div class="order-row">
                     <span class="label">وضعیت پرداخت</span>
                     <span @class([
                                     'value',

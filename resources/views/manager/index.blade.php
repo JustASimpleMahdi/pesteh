@@ -254,7 +254,7 @@
         </a>
 
         <!-- آمار فروش -->
-        <div class="list-row">
+        <a href="{{ route('manager.statistics') }}" class="list-row">
             <div class="row-right">
                 <img src="{{ asset('/icons & images/Chart.png') }}" alt="Icon"/>
                 <!-- آیکون نموداری -->
@@ -263,11 +263,10 @@
             <div class="row-left">
                 <img
                     src="{{ asset('/icons & images/Arrow - Left 2.png') }}"
-                    onclick="window.location.href = 'analytics.html'"
                     alt="Go"
                 />
             </div>
-        </div>
+        </a>
         <div class="list-row"></div>
     </div>
 

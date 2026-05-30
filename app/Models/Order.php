@@ -4,14 +4,16 @@ namespace App\Models;
 
 use App\Casts\JalaliCast;
 use App\Enums\OrderStatusEnum;
+use App\Enums\PaymentStatusEnum;
 use App\Enums\SettingsKeyEnum;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
+use Morilog\Jalali\Jalalian;
 
 #[Fillable('status')]
 class Order extends Model
@@ -21,6 +23,8 @@ class Order extends Model
         static::creating(function (Order $order) {
             $order->shipping_cost = Settings::get(SettingsKeyEnum::SHIPPING_COST);
             $order->code = static::generateUniqueCode();
+            $order->total_items_price = $order->calculateTotalItemsPrice();
+            $order->total_price = $order->calculateTotalPrice();
         });
     }
 
@@ -64,13 +68,45 @@ class Order extends Model
         ];
     }
 
-    protected function totalItemsPrice(): Attribute
+    protected function calculateTotalItemsPrice(): int
     {
-        return Attribute::make(get: fn() => $this->items->sum('price'));
+        return $this->items->sum('price');
     }
 
-    protected function totalPrice(): Attribute
+    protected function calculateTotalPrice(): int
     {
-        return Attribute::make(get: fn() => $this->total_items_price + $this->shipping_cost);
+        return $this->total_items_price + $this->shipping_cost;
+    }
+
+    #[Scope]
+    protected function yearly($query)
+    {
+        $startOfYear = Jalalian::now()->getFirstDayOfYear()->toCarbon();
+        $endOfYear = Jalalian::now()->getEndDayOfYear()->toCarbon();
+        return $query->whereBetween('created_at', [$startOfYear, $endOfYear]);
+    }
+
+    #[Scope]
+    protected function monthly($query)
+    {
+        $startOfMonth = Jalalian::now()->getFirstDayOfMonth()->toCarbon();
+        $endOfMonth = Jalalian::now()->getEndDayOfMonth()->toCarbon();
+        return $query->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
+    }
+
+    #[Scope]
+    protected function daily($query)
+    {
+        $startOfDay = now()->startOfDay();
+        $endOfDay = now()->endOfDay();
+        return $query->whereBetween('created_at', [$startOfDay, $endOfDay]);
+    }
+
+    #[Scope]
+    protected function paid($query)
+    {
+        return $query->whereHas('payment', function ($query) {
+            $query->where('status', PaymentStatusEnum::SUCCESS);
+        });
     }
 }

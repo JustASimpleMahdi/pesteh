@@ -9,9 +9,11 @@ use App\Http\Controllers\MyOrdersController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StatisticsController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('manager')->middleware(['auth', 'manager'])->group(function () {
+    Route::get('/statistics', [StatisticsController::class, 'index'])->name('manager.statistics');
     Route::resource('orders', OrdersController::class)->except(['edit', 'create', 'store', 'destroy'])->names('manager.orders');
     Route::resource('products', ManagerProductController::class)->except(['show', 'create', 'store', 'destroy'])->names('manager.products');
     Route::get('/', function () {
