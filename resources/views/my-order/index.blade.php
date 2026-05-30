@@ -160,6 +160,7 @@
             flex-direction: column;
             gap: 12px;
             padding-bottom: 10px;
+            flex-grow: 1;
         }
 
         /* باکس هر سفارش */
@@ -326,6 +327,40 @@
             width: 28px;
             cursor: pointer;
         }
+
+        /* متن خالی بودن سفارش */
+        .empty-text {
+            text-align: center;
+            color: #6d710d;
+            font-size: 15px;
+            margin-top: 40px;
+        }
+
+        /* دکمه بازگشت به فروشگاه */
+        .back-store-wrapper {
+            margin-top: auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .back-store-btn {
+            width: 70%;
+            height: 48px;
+            border: none;
+            border-radius: 25px;
+            background: #6d710d;
+            color: #d0d2a1;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .back-store-btn img {
+            width: 20px;
+        }
     </style>
 </head>
 
@@ -370,17 +405,42 @@
 
         <!-- سفارش‌های تب جاری -->
         <div id="ordersCurrent" class="orders-container">
-            @foreach($currentOrders as $order)
-                <x-my-orders.order-card :order="$order"/>
-            @endforeach
+
+            @if($currentOrders->isNotEmpty())
+                @foreach($currentOrders as $order)
+                    <x-my-orders.order-card :order="$order"/>
+                @endforeach
+            @else
+                <div class="empty-text">هیچ سفارش جاری ای ندارید.</div>
+
+                <!-- دکمه بازگشت به فروشگاه -->
+                <div class="back-store-wrapper">
+                    <a href="{{ route('home') }}" class="back-store-btn">
+                        <span>بازگشت به فروشگاه</span>
+                        <img src="{{ asset('/icons & images/Arrow - Left.png') }}" alt="Back"/>
+                    </a>
+                </div>
+            @endif
         </div>
 
         <!-- سفارش‌های تب سفارش‌های دیگر -->
         <div id="ordersDelivered" class="orders-container" style="display:none;">
 
-            @foreach($otherOrders as $order)
-                <x-my-orders.order-card :order="$order"/>
-            @endforeach
+            @if($otherOrders->isNotEmpty())
+                @foreach($otherOrders as $order)
+                    <x-my-orders.order-card :order="$order"/>
+                @endforeach
+            @else
+                <div class="empty-text">هنوز هیچ سفارشی نداده اید.</div>
+
+                <!-- دکمه بازگشت به فروشگاه -->
+                <div class="back-store-wrapper">
+                    <a href="{{ route('home') }}" class="back-store-btn">
+                        <span>بازگشت به فروشگاه</span>
+                        <img src="{{ asset('/icons & images/Arrow - Left.png') }}" alt="Back"/>
+                    </a>
+                </div>
+            @endif
 
         </div>
 
