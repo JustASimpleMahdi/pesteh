@@ -373,7 +373,7 @@
     }
 
     function updatePrice() {
-        const weight = parseInt(weightSelect.value)
+        const weight = parseFloat(weightSelect.value)
         const price = (pricePerKg * weight)
         productPrice.textContent = `${formatNumber(price)} تومان`
     }

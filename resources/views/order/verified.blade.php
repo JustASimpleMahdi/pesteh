@@ -1,4 +1,4 @@
-@php use App\Enums\OrderStatusEnum; @endphp
+@php use App\Enums\PaymentStatusEnum; @endphp
     <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 
@@ -163,7 +163,7 @@
     <!-- محتوای اصلی -->
 
     <div class="main">
-        @if($order->status === OrderStatusEnum::PAYMENT_SUCCESS)
+        @if($order->payment->status === PaymentStatusEnum::SUCCESS)
             <div class="status-box">
                 <span>پرداخت موفق</span>
                 <img src="{{ asset('/icons & images/Shield Done.png') }}" alt="موفق">

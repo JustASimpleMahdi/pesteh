@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatusEnum;
 use App\Enums\PaymentStatusEnum;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Payment;
 use App\Services\PaymentService;
 use DB;
@@ -69,6 +71,16 @@ class OrderController extends Controller
         $payment = Payment::where('authority', $authority)->firstOrFail();
 
         PaymentService::verify($payment);
+
+        $order = $payment->order;
+        if ($order->status === OrderStatusEnum::PENDING) {
+            $order->items->each(function (OrderItem $orderItem) {
+                $product = $orderItem->product;
+
+                $product->quantity -= $orderItem->amount;
+                $product->save();
+            });
+        }
 
         return redirect()->route('order.verified', ['order' => $payment->order_id]);
     }

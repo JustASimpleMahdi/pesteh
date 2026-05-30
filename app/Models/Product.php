@@ -18,7 +18,9 @@ class Product extends Model
             $quantity = $product->quantity;
             if ($product->cartItems()->exists()) {
                 if ($quantity === 0) {
-                    $product->cartItems()->update(['amount' => 0]);
+                    $product->cartItems()->each(function (CartItem $cartItem) {
+                        $cartItem->delete();
+                    });
                 } else {
                     $product->cartItems()->where('amount', '>', $quantity)
                         ->update(['amount' => $quantity]);
