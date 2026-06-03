@@ -217,9 +217,9 @@
 
     <!-- نوار سبز مدیریت -->
     <div class="sub-header-green">
-        <div class="back-btn" onclick="history.back()">
+        <a href="{{ route('manager') }}" class="back-btn">
             <img src="{{ asset('icons & images/Arrow - Left 2.png') }}" alt="Back">
-        </div>
+        </a>
         محصولات
     </div>
 
