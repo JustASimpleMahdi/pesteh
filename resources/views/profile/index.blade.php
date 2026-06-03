@@ -147,6 +147,7 @@
 
         .logout-form button {
             all: unset;
+            cursor: pointer;
             width: 100%;
         }
 

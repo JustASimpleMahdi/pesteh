@@ -181,6 +181,12 @@
             width: 28px;
             cursor: pointer;
         }
+
+        .logout-form button {
+            all: unset;
+            cursor: pointer;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -267,7 +273,25 @@
                 />
             </div>
         </a>
-        <div class="list-row"></div>
+        <form class="logout-form" action="{{ route('logout') }}" method="post">
+            @csrf
+            @method('DELETE')
+            <button>
+                <div class="list-row">
+                    <div class="row-right">
+                        <img src="{{ asset('icons & images/Logout.png') }}" alt="Icon"/>
+                        <!-- آیکون نموداری -->
+                        <span>خروج از حساب کاربری</span>
+                    </div>
+                    <div class="row-left">
+                        <img
+                            src="{{ asset('icons & images/Arrow - Left 2.png') }}"
+                            alt="Go"
+                        />
+                    </div>
+                </div>
+            </button>
+        </form>
     </div>
 
     <!-- فوتر -->
