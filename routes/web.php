@@ -10,6 +10,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Middleware\RedirectManager;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('manager')->middleware(['auth', 'manager'])->group(function () {
@@ -23,7 +24,7 @@ Route::prefix('manager')->middleware(['auth', 'manager'])->group(function () {
 
 Route::get('/payment/verify', [OrderController::class, 'verifyPayment'])->name('payment.verify');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', RedirectManager::class])->group(function () {
     Route::get('/orders', [MyOrdersController::class, 'index'])->name('my-orders.index');
     Route::get('/order/{order}/verified/', [OrderController::class, 'verifiedOrder'])->name('order.verified');
     Route::post('/order', [OrderController::class, 'store'])->name('order.store');
@@ -31,7 +32,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 /* Cart */
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', RedirectManager::class])->group(function () {
     Route::delete('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
@@ -40,7 +41,7 @@ Route::middleware(['auth'])->group(function () {
 /* Product */
 Route::get('/product/{code}', [ProductController::class, 'show'])->name('product.show');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', RedirectManager::class])->group(function () {
     Route::post('/profile/address', [ProfileController::class, 'updateAddress'])->name('profile.address.update');
     Route::get('/profile/address', [ProfileController::class, 'address'])->name('profile.address');
     Route::put('/profile/info', [ProfileController::class, 'update'])->name('profile.info.update');
