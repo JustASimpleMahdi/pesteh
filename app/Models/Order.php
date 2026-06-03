@@ -23,8 +23,6 @@ class Order extends Model
         static::creating(function (Order $order) {
             $order->shipping_cost = Settings::get(SettingsKeyEnum::SHIPPING_COST);
             $order->code = static::generateUniqueCode();
-            $order->total_items_price = $order->calculateTotalItemsPrice();
-            $order->total_price = $order->calculateTotalPrice();
         });
     }
 
@@ -68,14 +66,14 @@ class Order extends Model
         ];
     }
 
-    protected function calculateTotalItemsPrice(): int
+    public function calculateTotalItemsPrice(): int
     {
         return $this->items->sum('price');
     }
 
-    protected function calculateTotalPrice(): int
+    public function calculateTotalPrice(): int
     {
-        return $this->total_items_price + $this->shipping_cost;
+        return $this->calculateTotalItemsPrice() + $this->shipping_cost;
     }
 
     #[Scope]

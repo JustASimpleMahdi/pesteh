@@ -50,7 +50,9 @@ class OrderController extends Controller
                 ])->toArray()
             );
 
-            $order->refresh();
+            $order->total_items_price = $order->calculateTotalItemsPrice();
+            $order->total_price = $order->calculateTotalPrice();
+            $order->save();
 
             $url = PaymentService::requestPayment(
                 order: $order,
