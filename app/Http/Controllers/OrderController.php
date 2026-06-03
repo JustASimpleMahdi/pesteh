@@ -41,7 +41,8 @@ class OrderController extends Controller
 
             $order->receiver()->create($validated);
 
-            $orderItems = $order->items()->createMany(
+
+            $order->items()->createMany(
                 $cart->items->map(fn($item) => [
                     'amount' => $item->amount,
                     'product_price' => $item->product->price,
@@ -49,6 +50,7 @@ class OrderController extends Controller
                 ])->toArray()
             );
 
+            $order->refresh();
 
             $url = PaymentService::requestPayment(
                 order: $order,
